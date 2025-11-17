@@ -1,0 +1,127 @@
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            <h5>
+                <i class="bi bi-funnel-fill"></i>
+                Filter
+            </h5>
+        </div>
+        <div class="card-body">
+            <div [formGroup]="searchFilterForm">
+                <div class="row">
+                    <div class="col-lg-6  col-sm-12">
+                        <label for="Grade Level" class="form-label">Grade Level</label>
+                        <select class="form-select" aria-label="Default select example" id="Grade Level"
+                            formControlName="GradeLevelId" >
+                            @for (item of gradeLevel; track item) {
+
+                            <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                            }
+
+
+
+
+                        </select>
+                    </div>
+                    <div class="col-lg-6  col-sm-12">
+                        <label for="Class" class="form-label">Class</label>
+                        <select class="form-select" aria-label="Default select example" id="Class"
+                            formControlName="ClassId">
+
+                            @for (item of class; track item) {
+
+                            <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                            }
+
+
+
+
+                        </select>
+                    </div>
+
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn  mt-4" (click)="loadstudent()">
+                        <span> Search</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header ">
+            <h5>
+                student
+            </h5>
+            <div class="col-lg-4  " [formGroup]="subform">
+                <select class="form-select" aria-label="Default select example" id="Class" formControlName="subjectId" 
+                [class.invalid-input]="
+                 subform.get('subjectId')?.invalid && subform.get('subjectId')?.touched
+                ">
+                    @for (item of subject; track item) {
+
+                    <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                    }
+
+
+
+
+                </select>
+            </div>
+        </div>
+
+        <div class="card-body ">
+            <div>
+                <table class="table table-striped ">
+                    <thead>
+                        <tr>
+                            @for (col of StudentTableColumns; track col) {
+                            <th>{{ col }}</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (stu of students | paginate : paginationconfig; track stu; let i = $index)
+                        {
+
+                        <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{stu.name}}</td>
+                            <td>{{stu.gradeLevel}}</td>
+                            <td>{{stu.class}}</td>
+                            <td> <input type="number" class="input form-control score-input" [(ngModel)]="stu.grade">
+                            </td>
+
+
+                        </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+                <div class="text-end">
+                    <button type="button" class="btn  mt-4" (click)="addGrades()">
+                        <span> submit</span>
+                    </button>
+                </div>
+
+
+                <pagination-controls class="text-center " (pageChange)="changePage($event)"></pagination-controls>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

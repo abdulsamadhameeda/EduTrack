@@ -1,0 +1,29 @@
+.btn {
+
+    width: 20%;
+  
+    border-radius: 0;
+    /* height: 70%; */
+    align-content: center;
+    border-radius:15px ;
+      background-color:rgba(30, 48, 80);
+    color: white;
+}
+.btn:hover{
+     background-color:rgb(64, 87, 128);
+}
+.card-header{
+    background-color: white;
+   
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.row{
+     font-weight: bold;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: rgb(97, 131, 190) !important;        
+  box-shadow: 0 0 5px rgb(100, 138, 203) !important;  
+  outline: none;
+}

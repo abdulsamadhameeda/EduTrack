@@ -1,0 +1,83 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5>
+                <i class="bi bi-funnel-fill"></i>
+                Add Student
+            </h5>
+        </div>
+        <div class="card-body">
+            <div [formGroup]="SaveStudentForm">
+                <div class="row">
+                    <div class="col-lg-6  col-sm-12">
+                        <label for="Grade Level" class="form-label">Grade Level</label>
+                        <select class="form-select" aria-label="Default select example" id="Grade Level"
+                            formControlName="GradeLevelId">
+                            @for (item of gradeLevel; track item) {
+
+                            <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                            }
+
+
+                        </select>
+                    </div>
+                    <div class="col-lg-6  col-sm-12">
+                        <label for="Class" class="form-label">Class</label>
+                        <select class="form-select" aria-label="Default select example" id="Class"
+                            formControlName="ClassId">
+                            @for (item of class; track item) {
+
+                            <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-lg-6  col-sm-12 mt-4">
+                        <label for="Class" class="form-label">Select Parent</label>
+                        <select class="form-select" aria-label="Default select example" id="Class"
+                            formControlName="ParentId">
+                           
+
+                            @for (item of parent; track item) {
+
+                            <option [ngValue]="item.id">{{ item.name }}</option>
+
+                            }
+
+                        </select>
+                    </div>
+                     <div class="col-lg-6  col-sm-12 mt-4">
+                        <label for="Class" class="form-label">Select Teacher</label>
+                        <select class="form-select" aria-label="Default select example" id="Class"
+                            formControlName="TeacherId">
+                           
+
+                            @for (item of teacher; track item) {
+
+                            <option [ngValue]="item.id">{{ item.name }}</option>
+
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-lg-6  col-sm-12 mt-4">
+                        <label for="exampleFormControlInput1" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name" formControlName="Name">
+                    </div>
+
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn  mt-4" [disabled]="!SaveStudentForm.valid" (click)="addStudent() ">
+                        <span> Add  <i class="fa-solid fa-plus" style="color: #ffffff;"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>

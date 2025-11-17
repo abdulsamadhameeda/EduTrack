@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+    background-color: #8080801c;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.invalid-input {
+  border-color: red;
+}

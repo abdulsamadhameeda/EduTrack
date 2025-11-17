@@ -1,0 +1,24 @@
+<div class="modal d-block" tabindex="-1" style="background-color: #000000a6">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ title }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="confirmDelete(false)"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>{{ body }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="confirmDelete(false)">
+          Close
+        </button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete(true)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

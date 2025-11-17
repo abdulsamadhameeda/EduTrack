@@ -1,0 +1,17 @@
+<div class="container">
+
+
+@for (item of attendances; track item) {
+    <div class="card mt-4" style="width: 18rem;">
+
+    <div class="card-body">
+    <h5 class="card-title">Attendance</h5>
+    <hr>
+    <p class="card-text">Your son / daughter was absent on {{item.dayAbsent | date :'EEE MMM d yyyy'}}</p>
+  </div>
+  </div>
+}
+
+  
+
+</div>

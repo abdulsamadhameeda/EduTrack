@@ -1,0 +1,31 @@
+.navbar {
+  height: 7.5rem;
+  background-color: #ffffff !important;
+
+  box-shadow: 0 4px 25px rgb(185, 210, 245);
+}
+.navbar .nav-link {
+  color: rgb(30, 48, 80);
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.logo {
+  height: 100px;
+  width: auto;
+  border-radius: 40%;
+}
+.btn {
+  background-color: rgba(30, 48, 80);
+}
+.btn:hover {
+  background-color: rgb(64, 87, 128);
+}
+.navbar .nav-link:hover {
+  color: rgb(64, 87, 128);
+}
+
+.navbar .nav-link.active {
+  color: rgb(64, 87, 128);
+  border-bottom: 2px solid rgb(64, 87, 128);
+}

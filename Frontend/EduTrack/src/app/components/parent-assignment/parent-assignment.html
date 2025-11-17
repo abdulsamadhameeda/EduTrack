@@ -1,0 +1,34 @@
+<div class="container">
+
+
+@for (item of assignments; track item) {
+    <div class="card mt-4" style="width: 18rem;">
+
+        <div class="card-body">
+            <div>
+                <h5 class="card-title">Assignment</h5>
+            </div>
+            <hr>
+            <div style="display: flex;">
+                <div style="width: 50%; display: flex;">
+                    <label>Subject : </label>
+                    <p>{{item.subjectName}}</p>
+                </div>
+                <div style="width: 50%; display: flex;">
+                    <label>Due Date : </label>
+                    <p>{{item.dueDateSub | date :'EEE MMM d yyyy'}}</p>
+                </div>
+            </div>
+            <div>
+                <label>Discription : </label>
+                <p>{{item.description}}</p>
+            </div>
+
+
+        </div>
+    </div>
+}
+
+
+
+</div>

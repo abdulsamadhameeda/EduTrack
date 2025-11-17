@@ -1,0 +1,195 @@
+<div class="container">
+  <div class="card shadow-sm  rounded-4">
+    <div class="card-header text-center bg-light rounded-top-4">
+      <h4 class="admin">Add Teacher</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="SaveUserForm">
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control rounded-3" id="name" placeholder="Enter name" formControlName="name"
+              [class.required-input-warning]="SaveUserForm.get('name')?.invalid  && SaveUserForm.get('name')?.touched" />
+
+            @if(SaveUserForm.get('name')?.invalid && SaveUserForm.get('name')?.touched){
+            @if(SaveUserForm.get('name')?.errors?.['required']){
+            <div class="invalid-input-message">
+              * Name is required
+            </div>
+
+            }
+            }
+
+          </div>
+
+          <div class="col-6 mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control rounded-3" id="email" placeholder="Enter email"
+              formControlName="email"
+              [class.required-input-warning]="SaveUserForm.get('email')?.invalid  && SaveUserForm.get('email')?.touched" />
+
+            @if(SaveUserForm.get('email')?.invalid && SaveUserForm.get('email')?.touched){
+            @if(SaveUserForm.get('email')?.errors?.['required']){
+            <div class="invalid-input-message">
+              * Email is required
+            </div>
+
+            }
+
+            @if(SaveUserForm.get('email')?.errors?.['email']){
+            <div class="invalid-input-message">
+              * Invalid Email
+            </div>
+
+
+            }
+            }
+
+
+
+          </div>
+          <div class="  col-6 mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="tel" class="form-control rounded-3" id="phone" placeholder="Enter phone"
+              formControlName="phone"
+              [class.required-input-warning]="SaveUserForm.get('phone')?.invalid  && SaveUserForm.get('phone')?.touched">
+
+            @if(SaveUserForm.get('phone')?.invalid && SaveUserForm.get('phone')?.touched){
+            @if(SaveUserForm.get('phone')?.errors?.['required']){
+            <div class="invalid-input-message">
+              * Phone is required
+            </div>
+            }
+            @else if (SaveUserForm.get('phone')?.errors?.['minlength']) {
+            <div class="invalid-input-message">
+              * Phone number must be at least 9 digits
+            </div>
+            }
+
+            @else if (SaveUserForm.get('phone')?.errors?.['maxlength']) {
+            <div class="invalid-input-message">
+              * Phone number must be more than 10 digits
+            </div>
+            }
+
+            }
+
+
+          </div>
+        </div>
+
+
+        <div class="d-flex flex-wrap gap-2 justify-content-end">
+          <button type="button" class="btn ADDBUTTON btn-secondary rounded-5 px-4" [disabled]="!SaveUserForm.valid"
+            (click)="addTeacher()">
+            Add <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+          </button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header">
+      <h5>
+        Teachers
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              @for (col of teacherTableColumns; track col) {
+              <th>{{ col }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (stu of teachers ; track stu; let i = $index)
+            {
+
+            <tr>
+              <td>{{ i + 1 }}</td>
+              <td>{{stu.name}}</td>
+              <td>{{stu.email}}</td>
+              <td>{{stu.phone}}</td>
+              <td>
+                <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal"
+                  data-bs-target="#SaveEmployeeModel" (click)="editUser(stu.id!)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+                <button type="button" class="btn btn-danger mx-2" (click)="showConfirmDialog(stu.id!)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </td>
+
+
+            </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal modal-lg fade" id="SaveEmployeeModel" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Teacher</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="restForm()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="SaveUserForm">
+          <div class="row align-end">
+            <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
+              <label for="nameControl" class="form-label">Name</label>
+              <input type="text" class="form-control" id="nameControl" placeholder="Employee Name"
+                formControlName="name" [class.invalid-input]="
+                  SaveUserForm.get('name')?.invalid && SaveUserForm.get('name')?.touched
+                " />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
+              <label for="phoneControl" class="form-label">Phone</label>
+              <input type="text" class="form-control" id="phoneControl" placeholder="phone" formControlName="phone"
+                [class.invalid-input]="
+                  SaveUserForm.get('phone')?.invalid && SaveUserForm.get('phone')?.touched
+                " />
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
+              <label for="phoneControl" class="form-label">Email</label>
+              <input type="text" class="form-control" id="phoneControl" placeholder="Email" formControlName="email"
+                [class.invalid-input]="
+                  SaveUserForm.get('email')?.invalid && SaveUserForm.get('email')?.touched
+                " />
+            </div>
+
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeButton (click)="restForm()">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" [disabled]="!SaveUserForm.valid" (click)="addTeacher()">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+@if (showConfirmationDialog) {
+<app-confirmation-dialog [title]="deleteDialogTitle" [body]="deleteDialogBody"
+  (confirm)="confirmEmployeeDelete($event)"></app-confirmation-dialog>
+
+}

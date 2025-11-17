@@ -1,0 +1,26 @@
+td,th{
+
+text-align: center;
+
+}
+.info{
+    display: flex;
+}
+h5{
+    padding: 1px;
+
+}
+.row{
+    margin: 0;
+}
+.card-header{
+       font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.blockquote{
+font-weight: 600;
+font-size: 17px;
+ 
+}
+.card-header{
+    background-color: #fff;
+}

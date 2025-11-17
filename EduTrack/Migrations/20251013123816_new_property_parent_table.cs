@@ -1,0 +1,29 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace EduTrack.Migrations
+{
+    /// <inheritdoc />
+    public partial class new_property_parent_table : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<long>(
+                name: "StudentId",
+                table: "Parents",
+                type: "bigint",
+                nullable: false,
+                defaultValue: 0L);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "StudentId",
+                table: "Parents");
+        }
+    }
+}

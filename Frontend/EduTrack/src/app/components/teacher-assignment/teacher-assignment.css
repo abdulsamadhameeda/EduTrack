@@ -1,0 +1,51 @@
+.table-header {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+}
+.table-title {
+flex-grow: 1;
+}
+.align-end {
+align-items: flex-end;
+
+}
+td,th{
+
+text-align: center;
+
+}
+.btn{
+  background-color:rgba(30, 48, 80);
+}
+.btn:hover{
+   background-color:rgb(64, 87, 128);
+  
+}
+.table-title{
+         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+}
+.modal-title{
+  font-weight: bold;
+}
+
+.modal-content .form-label {
+  color: rgb(0, 0, 0); 
+  font-weight: 600;       
+  font-size: 15px;        
+}
+
+.modal-footer .btn.btn-secondary {
+  background-color: #ffffff;        
+  color: rgb(30, 48, 80);        
+  border: 1.5px solid rgb(30, 48, 80); 
+  font-weight: 600;                 
+  transition: all 0.2s ease-in-out; 
+}
+
+
+.modal-footer .btn.btn-secondary:hover {
+  background-color: rgb(30, 48, 80); 
+  color: #ffffff;                  
+}
+

@@ -1,0 +1,45 @@
+.required-input-warning {
+    border-color: #d10000;
+}
+
+.invalid-input-message {
+    font-size: 0.9rem;
+    padding: 1%;
+    color: #d10000;
+}
+
+.ADDBUTTON {
+
+    width: 30%;
+    background-color: rgba(30, 48, 80);
+    color: #ffffff;
+    border-radius: 0;
+    font-weight: bold;
+    height: 70%;
+    align-content: center;
+    border-radius: 0 0 15px 15px;
+    margin-left: 30px;
+}
+.card-header {
+    background-color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.admin {
+
+
+    font-size: 2rem;
+    color: rgba(30, 48, 80);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+
+
+
+}
+td,
+th {
+
+    text-align: center;
+
+}

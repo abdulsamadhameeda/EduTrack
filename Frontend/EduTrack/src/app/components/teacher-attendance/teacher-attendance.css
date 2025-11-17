@@ -1,0 +1,76 @@
+.btn {
+
+    width: 20%;
+    border-radius: 0;
+    /* height: 70%; */
+    align-content: center;
+    border-radius: 15px;
+      background-color:rgba(30, 48, 80);
+    color: white;
+    
+}
+
+.card-header {
+ background-color: white;
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+     
+}
+
+td,
+th {
+
+    text-align: center;
+
+}
+
+@media screen and (max-width: 800px) {
+    .btn {
+        width: 100%;
+        margin-bottom: 20px;
+
+
+    }
+
+
+}
+
+::ng-deep .ngx-pagination .current {
+  background-color: #002b5c !important;  
+  color: white !important;              
+  border-radius: 6px;                  
+  border: none !important;
+} 
+
+.btn:hover{
+ background-color:rgb(64, 87, 128);
+} 
+
+.form-control:focus,
+.form-select:focus {
+  border-color: rgb(97, 131, 190) !important;        
+  box-shadow: 0 0 5px rgb(100, 138, 203) !important;  
+  outline: none;
+}
+
+.form-label {
+  font-weight: bold;         
+  margin-bottom: .25rem;    
+  display: block;
+}
+
+.card .card-body .row > [class*="col-"] {
+  display: flex;
+  flex-direction: column;   
+  gap: .25rem;       
+}
+.row{
+    font-weight: bold;
+}
+.form-check-input:checked {
+  background-color: rgb(30, 48, 80);   
+  border-color: rgb(30, 48, 80);
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 3px rgba(30, 48, 80, 0.5);
+}

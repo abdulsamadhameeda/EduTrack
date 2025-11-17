@@ -1,0 +1,40 @@
+<div class="min-vh-100 con">
+
+
+  <div class="img">
+    <img src="assets\logo 3.png" alt="Logo" style="width: 100%;">
+
+  </div>
+
+
+
+  <div class="info" [formGroup]="loginForm">
+
+    <!-- <h4>EduTrack</h4> -->
+    <h6 class="h6 ">Login</h6>
+    <div class="mb-3 ">
+      <label for="usernameControl" class="form-label">Username</label>
+      <input type="text" class="form-control" id="usernameControl" formControlName="Username"
+        placeholder=" Enter username" [class.invalid-input]="
+                  loginForm.get('Username')?.invalid && loginForm.get('Username')?.touched
+                " />
+    </div>
+
+    <div class="mb-3 ">
+      <label for="passwordControl" class="form-label">Password</label>
+      <input type="password" class="form-control" id="passwordControl" formControlName="Password"
+        placeholder=" Enter password" [class.invalid-input]="
+                  loginForm.get('Password')?.invalid && loginForm.get('Password')?.touched
+                " />
+    </div>
+    @if (showerrormessage){
+    <div class="err-message">
+      *{{errormessage}}
+    </div>
+    }
+    <div class="d-grid">
+      <button type="submit" class="btn" (click)="login()">Login </button>
+    </div>
+
+  </div>
+</div>

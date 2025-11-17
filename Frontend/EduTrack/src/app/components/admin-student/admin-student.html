@@ -1,0 +1,242 @@
+<div class="container">
+    <div class="card shadow-sm  rounded-4">
+        <div class="card-header text-center bg-light rounded-top-4">
+            <h4 class="admin">Add Student</h4>
+        </div>
+        <div class="card-body">
+            <div [formGroup]="SaveStudentForm">
+                <div class="row">
+                    <div class="col-lg-6  col-sm-12">
+                        <label for="Grade Level" class="form-label">Grade Level</label>
+                        <select class="form-select" aria-label="Default select example" id="Grade Level"
+                            formControlName="GradeLevelId">
+                            @for (item of gradeLevel; track item) {
+
+                            <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                            }
+
+
+                        </select>
+                    </div>
+                    <div class="col-lg-6  col-sm-12">
+                        <label for="Class" class="form-label">Class</label>
+                        <select class="form-select" aria-label="Default select example" id="Class"
+                            formControlName="ClassId">
+                            @for (item of class; track item) {
+
+                            <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-lg-6  col-sm-12 mt-4">
+                        <label for="Class" class="form-label">Select Parent</label>
+                        <select class="form-select" aria-label="Default select example" id="Class"
+                            formControlName="ParentId">
+
+
+                            @for (item of parent; track item) {
+
+                            <option [ngValue]="item.id">{{ item.name }}</option>
+
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-lg-6  col-sm-12 mt-4">
+                        <label for="Class" class="form-label">Select Teacher</label>
+                        <select class="form-select" aria-label="Default select example" id="Class"
+                            formControlName="TeacherId">
+
+
+                            @for (item of teacher; track item) {
+
+                            <option [ngValue]="item.id">{{ item.name }}</option>
+
+                            }
+
+                        </select>
+                    </div>
+                    <div class="col-lg-6  col-sm-12 mt-4">
+                        <label for="exampleFormControlInput1" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Name"
+                            formControlName="Name"
+                            [class.required-input-warning]="SaveStudentForm.get('Name')?.invalid  && SaveStudentForm.get('Name')?.touched">
+                        @if(SaveStudentForm.get('Name')?.invalid && SaveStudentForm.get('Name')?.touched){
+                        @if(SaveStudentForm.get('Name')?.errors?.['required']){
+                        <div class="invalid-input-message">
+                            * Name is required
+                        </div>
+
+                        }
+                        }
+                    </div>
+
+                </div>
+                <div class="text-end">
+                    <button type="button" class="btn ADDBUTTON btn-secondary rounded-5 px-4"
+                        [disabled]="!SaveStudentForm.valid" (click)="addStudent()">
+                        <span> Add <i class="fa-solid fa-plus" style="color: #ffffff;"></i></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h5>
+                Student
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            @for (col of StudentTableColumns; track col) {
+                            <th>{{ col }}</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (stu of students ; track stu; let i = $index)
+                        {
+
+                        <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{stu.name}}</td>
+                            <td>{{stu.gradeLevel}}</td>
+                            <td>{{stu.class}}</td>
+                            <td>{{stu.teacherName}}</td>
+                            <td>{{stu.parentName}}</td>
+
+
+                            <td>
+                                <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal"
+                                    data-bs-target="#SaveEmployeeModel" (click)="editUser(stu.id!)">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger mx-2" (click)="showConfirmDialog(stu.id!)">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+
+
+                        </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-lg fade" id="SaveEmployeeModel" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Teacher</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="restForm()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="SaveStudentForm">
+                    <div class="row align-end">
+                        <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
+                            <label for="nameControl" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="nameControl" placeholder="Name"
+                                formControlName="Name" [class.invalid-input]="
+                  SaveStudentForm.get('Name')?.invalid && SaveStudentForm.get('Name')?.touched
+                " />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
+                            <label for="phoneControl" class="form-label">gradeLevel</label>
+                            <select class="form-select" aria-label="Default select example" id="positioncontrol"
+                                formControlName="GradeLevelId" [class.invalid-input]="
+                  SaveStudentForm.get('GradeLevelId')?.invalid && SaveStudentForm.get('GradeLevelId')?.touched
+                ">
+                                @for (item of gradeLevel; track item) {
+
+                                <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                                }
+                            </select>
+                        </div>
+
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
+                            <label for="phoneControl" class="form-label">class</label>
+                            <select class="form-select" aria-label="Default select example" id="positioncontrol"
+                                formControlName="ClassId" [class.invalid-input]="
+                  SaveStudentForm.get('ClassId')?.invalid && SaveStudentForm.get('ClassId')?.touched
+                ">
+                                @for (item of class; track item) {
+
+                                <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
+                            <label for="phoneControl" class="form-label">Teacher</label>
+                            <select class="form-select" aria-label="Default select example" id="positioncontrol"
+                                formControlName="TeacherId" [class.invalid-input]="
+                  SaveStudentForm.get('TeacherId')?.invalid && SaveStudentForm.get('TeacherId')?.touched
+                ">
+                                @for (item of teacher; track item) {
+
+                                <option [ngValue]="item.id">{{ item.name }}</option>
+
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 mb-2">
+                            <label for="phoneControl" class="form-label">Parent</label>
+                            <select class="form-select"    aria-label="Default select example" id="positioncontrol"
+                                formControlName="ParentId" [class.invalid-input]="
+                  SaveStudentForm.get('ParentId')?.invalid && SaveStudentForm.get('ParentId')?.touched
+                " >
+                                @for (item of parentAll; track item) {
+
+                                <option [ngValue]="item.id">{{ item.name }}</option>
+
+                                }
+                            </select>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeButton
+                    (click)="restForm()">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" [disabled]="!SaveStudentForm.valid"
+                    (click)="addStudent()">
+                    Save changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@if (showConfirmationDialog) {
+<app-confirmation-dialog [title]="deleteDialogTitle" [body]="deleteDialogBody"
+  (confirm)="confirmEmployeeDelete($event)"></app-confirmation-dialog>
+
+}
