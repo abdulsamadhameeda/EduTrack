@@ -52,38 +52,51 @@ namespace EduTrack.Controllers
 
         private string GenerateJwToken(User user)
         {
-            var claims = new List<Claim>();  //User Info
+            var claims = new List<Claim>();
 
-            //Key --> Value
+            // Basic user info
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Name, user.UserName));
 
-
+            // Role
             if (user.IsAdmin)
             {
                 claims.Add(new Claim(ClaimTypes.Role, "Admin"));
             }
             else
             {
-               var userType = _dbContext.Users.Include(x => x.Lookup).FirstOrDefault(x => x.Id == user.Id);
-                claims.Add(new Claim(ClaimTypes.Role, userType.Lookup?.Name));
-            }
+                var userType = _dbContext.Users
+                    .Include(x => x.Lookup)
+                    .FirstOrDefault(x => x.Id == user.Id);
 
+                claims.Add(new Claim(ClaimTypes.Role, userType.Lookup?.Name));
+
+                // 🟢 NEW: Get TeacherId from Teachers table
+                var teacher = _dbContext.Teachers
+                    .FirstOrDefault(t => t.UserId == user.Id);
+
+                if (teacher != null)
+                {
+                    // 🟢 Add teacherId claim
+                    claims.Add(new Claim("teacherId", teacher.Id.ToString()));
+                }
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("WHAFWEI#!@S!!112312WQEQW@RWQEQW432"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var tokenSettings = new JwtSecurityToken(
-                    claims: claims, // User Info
-                    expires: DateTime.Now.AddDays(1), // when Dose The Token Expire
-                    signingCredentials: creds // Encryption Settings
-                );
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds
+            );
 
-            var tokenHandller = new JwtSecurityTokenHandler(); //The Lastest Class
-            var token = tokenHandller.WriteToken(tokenSettings);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.WriteToken(tokenSettings);
 
             return token;
         }
+
 
 
     }

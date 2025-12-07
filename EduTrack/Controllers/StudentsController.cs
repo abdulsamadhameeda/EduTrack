@@ -30,35 +30,47 @@ namespace EduTrack.Controllers
         {
             try
             {
-                var data = from student in _dbContext.Students
-                           from teacher in _dbContext.Teachers.Where(x => x.Id == student.TeacherId).DefaultIfEmpty() // Left Join
-                           from parent in _dbContext.Parents.Where(x => x.Id == student.ParentId) //Join
-                           //from studentSassignments in _dbContext.StudentSAssignments.Where(x => x.StudentId == student.Id ) //Join
-                           from lookup in _dbContext.Lookups.Where(x => x.Id == student.GradeLevelId).DefaultIfEmpty() // Left Join
-                           from lookup1 in _dbContext.Lookups.Where(x => x.Id == student.ClassId).DefaultIfEmpty() // Left Join
-                           where (filterDto.Id == null || student.Id == filterDto.Id) &&
-                                 (filterDto.Name == null || student.Name.ToUpper().Contains(filterDto.Name.ToUpper())) &&
-                                 (filterDto.GradeLevelId == null || student.GradeLevelId == filterDto.GradeLevelId) &&
-                                 (filterDto.ClassId == null || student.ClassId == filterDto.ClassId)
-                           orderby student.Id
-                           select new StudentDto
-                           {
-                               Id = student.Id,
-                               Name = student.Name,
-                               GradeLevel = lookup.Name,    
-                               Class = lookup1.Name,
-                               TeacherId = student.TeacherId,
-                               TeacherName= teacher.Name,
-                               ParentId = student.ParentId,
-                               //AssignmentId = studentSassignments.AssignmentId
-                               GradeLevelId = student.GradeLevelId,
-                               ClassId = student.ClassId,
-                               ParentName=parent.Name
-                               
+
+                var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+                int? teacherId = null;
+
+                if (role != "Admin")
+                {
+                    var teacherClaim = User.FindFirst("teacherId");
+                    if (teacherClaim != null)
+                        teacherId = int.Parse(teacherClaim.Value);
+                }
 
 
-                           };
+                var data =
+                    from student in _dbContext.Students
+                    from teacher in _dbContext.Teachers.Where(x => x.Id == student.TeacherId).DefaultIfEmpty()
+                    from parent in _dbContext.Parents.Where(x => x.Id == student.ParentId)
+                    from lookup in _dbContext.Lookups.Where(x => x.Id == student.GradeLevelId).DefaultIfEmpty()
+                    from lookup1 in _dbContext.Lookups.Where(x => x.Id == student.ClassId).DefaultIfEmpty()
 
+                        // 🔥 2. Filter students by logged-in teacher
+                    where (teacherId == null || student.TeacherId == teacherId) &&
+                          (filterDto.Id == null || student.Id == filterDto.Id) &&
+                          (filterDto.Name == null || student.Name.ToUpper().Contains(filterDto.Name.ToUpper())) &&
+                          (filterDto.GradeLevelId == null || student.GradeLevelId == filterDto.GradeLevelId) &&
+                          (filterDto.ClassId == null || student.ClassId == filterDto.ClassId)
+
+                    orderby student.Id
+                    select new StudentDto
+                    {
+                        Id = student.Id,
+                        Name = student.Name,
+                        GradeLevel = lookup.Name,
+                        Class = lookup1.Name,
+                        TeacherId = student.TeacherId,
+                        TeacherName = teacher.Name,
+                        ParentId = student.ParentId,
+                        GradeLevelId = student.GradeLevelId,
+                        ClassId = student.ClassId,
+                        ParentName = parent.Name
+                    };
 
                 return Ok(data);
             }
@@ -66,8 +78,8 @@ namespace EduTrack.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
+
 
         [Authorize(Roles = "Parent")]
         [HttpGet("GetById")]

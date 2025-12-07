@@ -17,11 +17,10 @@ export class Teacher {
     private _AuthService: AuthService
   ) { }
 
-  teacher: TeacherInterface | null = null;  // مش مصفوفة
+  teacher: TeacherInterface | null = null; 
 
   ngOnInit() {
 
-    // this.techerinfo(5);
  const userId = this._AuthService.getUserId(); // استخرج الـ ID من التوكن
   console.log('Teacher ID:', userId);
 
