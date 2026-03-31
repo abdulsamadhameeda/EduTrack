@@ -3,8 +3,8 @@ export interface Assignment {
   description: string;
   dueDateSub: Date;
   subjectName?: string; // الاسم
-  class?: string; // الاسم
-  gradeLevel?: string; // الاسم
+  className?: string; // الاسم
+  gradeLevelName?: string; // الاسم
 
   subjectId: number;
   gradeLevelId: number;

@@ -15,10 +15,10 @@ td,th{
 text-align: center;
 
 }
-.btn{
+.addbtn{
   background-color:rgba(30, 48, 80);
 }
-.btn:hover{
+.addbtn:hover{
    background-color:rgb(64, 87, 128);
   
 }

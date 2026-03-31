@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Assignment } from '../interfaces/assignment-interfaces';
 
 
 
@@ -35,4 +36,19 @@ export class AssignmentService {
     return this._http.get(this.apiUrl + "/GetByStudentId", { params, headers });
   }
 
+  delete(Id: number) {
+    let params = new HttpParams();
+    params = params.set("Id", Id.toString());
+    let token = localStorage.getItem('token');
+    let headers = { 'Authorization': `Bearer ${token}` };
+    return this._http.delete(this.apiUrl + "/Delete", { params, headers });
+  }
+
+  Update(assignment:Assignment){
+   let token = localStorage.getItem('token');
+    let headers = { 'Authorization': `Bearer ${token}` };
+
+    return this._http.put(this.apiUrl + "/Update", assignment, { headers });
+
+  }
 }

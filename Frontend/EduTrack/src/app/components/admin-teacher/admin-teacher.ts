@@ -166,6 +166,7 @@ showConfirmDialog(userId: number) {
     if (this.userIdToBeDeleted) {
       this._teacherService.delete(this.userIdToBeDeleted).subscribe({
         next: res => {
+          
           this.loadTeacher();
         },
         error: err => {

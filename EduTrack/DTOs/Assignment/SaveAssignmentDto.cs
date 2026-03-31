@@ -4,6 +4,8 @@ namespace EduTrack.DTOs.Assignment
 {
     public class SaveAssignmentDto
     {
+        public long Id { get; set; }
+
         public string? Description { get; set; }
         public DateTime DueDateSub { get; set; }
 

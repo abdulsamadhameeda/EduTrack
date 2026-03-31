@@ -35,7 +35,7 @@ export class TeacherAssignment {
     private _lookupService: LookupService
   ) { }
 
-  teacherassignment: Assignment[] = []
+  assignment: Assignment[] = []
 
   gradeLevel: ListInterface[] = []
 
@@ -47,16 +47,18 @@ export class TeacherAssignment {
 
 
   Assignmentform = new FormGroup({
-    subjectId: new FormControl(null, [Validators.required]),
-    description: new FormControl(null, [Validators.required]),
-    dueDateSub: new FormControl(null),
-    classId: new FormControl(null, [Validators.required]),
-    gradeLevelId: new FormControl(null, [Validators.required]),
+    id: new FormControl<number | null>(null),
+    subjectId: new FormControl<number | null>(null, [Validators.required]),
+    description: new FormControl<string | null>(null, [Validators.required]),
+    dueDateSub: new FormControl<string | null>(null),
+    classId: new FormControl<number | null>(null, [Validators.required]),
+    gradeLevelId: new FormControl<number | null>(null, [Validators.required]),
+
   });
 
 
   assighnmentTableColumns: string[] = ['#', 'Subject', 'Description', 'Due Date', 'Class', 'GradeLevel'];
-  
+
 
 
 
@@ -69,7 +71,7 @@ export class TeacherAssignment {
 
 
   loadassignment() {
-    this.teacherassignment = [];
+    this.assignment = [];
 
     this._assignmentService.getAll().subscribe({
       next: (res: any) => {
@@ -82,12 +84,12 @@ export class TeacherAssignment {
               description: x.description,
               dueDateSub: x.dueDateSub,
               classId: x.classId,
-              class: x.class, // الاسم للشعبه
+              className: x.class, // الاسم للشعبه
               gradeLevelId: x.gradeLevelId,
-              gradeLevel: x.gradeLevel, // الاسم للصف
+              gradeLevelName: x.gradeLevel, // الاسم للصف
             };
 
-            this.teacherassignment.push(assignments);
+            this.assignment.push(assignments);
           });
         }
       },
@@ -99,37 +101,62 @@ export class TeacherAssignment {
 
 
 
+  editAssignment(id: number) {
+    let assignment = this.assignment.find((x) => x.id == id);
 
 
-  saveassignment() {
-    let newassignment: Assignment = {
-      id: 0,
-      subjectId: Number(this.Assignmentform.value.subjectId),
-      description: this.Assignmentform.value.description!,
-      dueDateSub: this.Assignmentform.value.dueDateSub
-        ? new Date(this.Assignmentform.value.dueDateSub)
-        : new Date(),
-      classId: Number(this.Assignmentform.value.classId ?? 0),
-      gradeLevelId: Number(this.Assignmentform.value.gradeLevelId ?? 0),
-    };
+
+    if (assignment != null) {
+      this.Assignmentform.patchValue({
+        id: assignment.id,
+        subjectId: assignment.subjectId,
+        description: assignment.description,
+        dueDateSub: assignment.dueDateSub?.toString().substring(0, 10),
+        classId: assignment.classId,
+        gradeLevelId: assignment.gradeLevelId,
+
+      });
+    }
+
+  }
+
+  Addassignment() {
+    let assignment = this.Assignmentform.value.id ?? 0
 
     let payload = {
-      description: newassignment.description,
-      dueDateSub: newassignment.dueDateSub,
-      subjectId: newassignment.subjectId,
-      classId: newassignment.classId,
-      gradeLevelId: newassignment.gradeLevelId
+      id: assignment,
+      description: this.Assignmentform.value.description,
+      dueDateSub: this.Assignmentform.value.dueDateSub ? new Date(this.Assignmentform.value.dueDateSub)
+        : new Date(),
+      subjectId: this.Assignmentform.value.subjectId,
+      classId: this.Assignmentform.value.classId,
+      gradeLevelId: this.Assignmentform.value.gradeLevelId
     };
 
-    this._assignmentService.add(payload).subscribe({
-      next: _ => {
-        this.loadassignment();          // إعادة تحميل القائمة
-        this.Assignmentform.reset();    // إعادة تعيين الفورم
-      },
-      error: err => {
-        console.log(err?.error?.message ?? err?.error ?? 'Unexpected error');
-      }
-    });
+    if (!this.Assignmentform.value.id) {
+      this._assignmentService.add(payload).subscribe({
+        next: _ => {
+          this.loadassignment();
+          this.Assignmentform.reset();
+        },
+        error: err => {
+          console.log(err?.error?.message ?? err?.error ?? 'Unexpected error');
+        }
+      });
+    }
+    else {
+      this._assignmentService.Update(payload as Assignment).subscribe({
+        next: _ => {
+          this.loadassignment();
+        },
+        error: err => {
+          console.log(err?.error?.message ?? err?.error ?? 'Unexpected error');
+        }
+      });
+
+    }
+
+
   }
 
 
@@ -191,6 +218,23 @@ export class TeacherAssignment {
     })
 
   }
+
+
+  deleteAssignment(id: number) {
+
+    this._assignmentService.delete(id).subscribe({
+      next: res => {
+        alert("Assignment deleted ");
+        this.loadassignment();
+      },
+      error: err => {
+        alert(err.error.message ?? err.error ?? "Unexpected Error");
+      }
+
+
+    })
+  }
+
 
 
 

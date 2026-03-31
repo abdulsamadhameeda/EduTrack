@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduTrack.Controllers
 {
-    [Authorize(Roles = "Teacher,Parent")]
+    //[Authorize(Roles = "Teacher,Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class AssignmentsController : ControllerBase
@@ -19,31 +19,7 @@ namespace EduTrack.Controllers
             _dbContext = dbContext;
         }
 
-        //[HttpGet("GetAll")]
-        //public IActionResult GetAll([FromQuery] FilterAssignmentsDto filterDto)
-        //{
-        //    try
-        //    {
-        //        var data = from assignment in _dbContext.Assignments
-        //                   from studentSassignments in _dbContext.StudentSAssignments.Where(x => x.AssignmentId == assignment.Id) //Join
-        //                   where (filterDto.Id == null || assignment.Id == filterDto.Id) 
-        //                   orderby assignment.Id
-        //                   select new AssignmentDto
-        //                   {
-        //                       Id = assignment.Id,
-        //                       Description = assignment.Description,
-        //                       DueDateSub = assignment.DueDateSub,
-        //                   };
-
-
-        //        return Ok(data);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-
-        //}
+       
 
         [HttpGet("GetAll")]
         public IActionResult GetAll()
@@ -52,6 +28,9 @@ namespace EduTrack.Controllers
                 .Select(a => new 
                 {
                     a.Id,
+                    SubjectId = a.SubjectId,
+                    GradeLevelId = a.GradeLevelId,
+                    ClassId = a.ClassId,
                     Description = a.Description,
                     DueDateSub = a.DueDateSub,
                     SubjectName = a.LookupSubject != null ? a.LookupSubject.Name : null,
@@ -147,31 +126,33 @@ namespace EduTrack.Controllers
 
         }
 
-        //[HttpPut("Update")]
-        //public IActionResult Update(SaveAssignmentDto assignmentDto)
-        //{
-        //    try
-        //    {
-        //        var assignment = _dbContext.Assignments.FirstOrDefault(x => x.Id == assignmentDto.Id);
-        //        if (assignment == null)
-        //        {
-        //            return BadRequest("Assignment Not Found!");
-        //        }
-        //        assignment.Subject = assignmentDto.Subject;
-        //        assignment.Description = assignmentDto.Description;
-        //        assignment.DueDateSub = assignmentDto.DueDateSub;
+        [HttpPut("Update")]
+        public IActionResult Update(SaveAssignmentDto assignmentDto)
+        {
+            try
+            {
+                var assignment = _dbContext.Assignments.FirstOrDefault(x => x.Id == assignmentDto.Id);
+                if (assignment == null)
+                {
+                    return BadRequest("Assignment Not Found!");
+                }
+                assignment.SubjectId = assignmentDto.SubjectId;
+                assignment.ClassId = assignmentDto.ClassId;
+                assignment.GradeLevelId = assignmentDto.GradeLevelId;
+                assignment.Description = assignmentDto.Description;
+                assignment.DueDateSub = assignmentDto.DueDateSub;
 
 
 
-        //        _dbContext.SaveChanges();
-        //        return Ok();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
+                _dbContext.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-        //}
+        }
 
         [HttpDelete("Delete")]
         public IActionResult Delete(long Id)
