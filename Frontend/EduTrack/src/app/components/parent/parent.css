@@ -18,7 +18,7 @@
 
 
 
-    margin: 15px;
+    margin: 20px;
 }
 
 
@@ -39,7 +39,7 @@
 
 .teacher-info {
     width: 60%;
-    color:  rgb(130, 124, 197);
+    color: rgb(130, 124, 197);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -54,7 +54,7 @@
 
 .teacher-name {
     font-size: 2rem;
-    color:rgba(30, 48, 80);
+    color: rgba(30, 48, 80);
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: bold;
 
@@ -67,10 +67,33 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 40px;
+    margin: 20px;
 }
 
 .btn {
+
+margin-inline: 10px;
+    font-weight: bold;
+    color: #000000;
+    background-color: #ffffff;
+    border-color: rgba(30, 48, 80);
+}
+
+.btn:hover {
+    background-color:  rgba(30, 48, 80);
+    color: #ffffff;
+}
+
+.btn-check:checked+.btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check)+.btn:active {
+    background-color: rgba(30, 48, 80);
+    color: #ffffff;
+}
+
+.cardbtn {
 
     width: 100%;
 
@@ -84,7 +107,7 @@
 
 }
 
-.btn:hover {
+.cardbtn:hover {
     background-color: rgb(64, 87, 128);
 }
 
@@ -101,7 +124,7 @@
 
 .card {
 
-    margin: 15px ;
+    margin: 15px;
     padding: 0;
     border-radius: 15px;
     box-shadow: 0 4px 25px rgb(185, 210, 245);

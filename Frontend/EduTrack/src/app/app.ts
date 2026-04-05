@@ -26,6 +26,7 @@ shownavBar() : boolean{
 }
 logout() {
   this.auth.logout();
+  localStorage.clear();
     this.router.navigateByUrl('/login'); // استخدم navigateByUrl بدل navigate
 }
 

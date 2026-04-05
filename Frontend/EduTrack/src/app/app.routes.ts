@@ -14,6 +14,7 @@ import { AdminTeacher } from './components/admin-teacher/admin-teacher';
 import { AdminParent } from './components/admin-parent/admin-parent';
 import { AdminStudent } from './components/admin-student/admin-student';
 import { authGuard } from './guards/auth-guard';
+import { StudentSelectorComponent } from './shared-component/student-selector-component/student-selector-component';
 export const routes: Routes = [
 
     { path: '', redirectTo: '/login', pathMatch: 'full' },

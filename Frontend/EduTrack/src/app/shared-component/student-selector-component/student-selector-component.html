@@ -1,0 +1,13 @@
+
+<div class="student-selector-container d-flex justify-content-center gap-3 my-4">
+    @for (student of students; track student.id) {
+    <input type="radio" class="btn-check" name="btnradio" [id]="'student-' + student.id"
+        [checked]="selectedStudentId === student.id" (change)="onSelect(student.id)">
+    <label class="btn " [for]="'student-' + student.id">{{ student.name }}</label>
+    }
+</div>
+
+
+
+
+

@@ -42,28 +42,28 @@ namespace EduTrack.Controllers
             return Ok(assignments);
         }
 
-        [HttpGet("GetById")]
-        public IActionResult GetById([FromQuery] long Id)
-        {
-            try
-            {
-                var assignment = _dbContext.Assignments.Select(assignment => new AssignmentDto
-                {
-                    Id = assignment.Id,
-                    Description = assignment.Description,   
-                    DueDateSub = assignment.DueDateSub,
+        //[HttpGet("GetById")]
+        //public IActionResult GetById([FromQuery] long Id)
+        //{
+        //    try
+        //    {
+        //        var assignment = _dbContext.Assignments.Select(assignment => new AssignmentDto
+        //        {
+        //            Id = assignment.Id,
+        //            Description = assignment.Description,   
+        //            DueDateSub = assignment.DueDateSub,
                    
 
-                }).FirstOrDefault(x => x.Id == Id);
+        //        }).FirstOrDefault(x => x.Id == Id);
 
 
-                return Ok(assignment);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //        return Ok(assignment);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         [HttpGet("GetByStudentId")]
         public IActionResult GetByStudentId([FromQuery] long studentId)
         {
@@ -172,7 +172,7 @@ namespace EduTrack.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-            }
+            }   
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduTrack.Controllers
 {
-    [Authorize(Roles = "Admin,Teacher,Parent")]
+        //[Authorize(Roles = "Admin,Teacher,Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class ParentsController : ControllerBase
@@ -27,7 +27,7 @@ namespace EduTrack.Controllers
                 var data = from parent in _dbContext.Parents
                            where (filterDto.Id == null || parent.Id == filterDto.Id) &&
                                  (filterDto.Name == null || parent.Name.ToUpper().Contains(filterDto.Name.ToUpper()))
-                               &&  (parent.StudentId == 0 || parent.StudentId == null) // ✅ فقط اللي ما عندهم طالب
+                               //&&  (parent.StudentId == 0 || parent.StudentId == null) // ✅ فقط اللي ما عندهم طالب
 
                            orderby parent.Id
                            select new ParentDto
@@ -36,7 +36,7 @@ namespace EduTrack.Controllers
                                Name = parent.Name,
                                Email = parent.Email,
                                Phone = parent.Phone,
-                               StudentId = parent.StudentId
+                               //StudentId = parent.StudentId
 
                            };
 
@@ -66,7 +66,7 @@ namespace EduTrack.Controllers
                                Name = parent.Name,
                                Email = parent.Email,
                                Phone = parent.Phone,
-                               StudentId = parent.StudentId,
+                               //StudentId = parent.StudentId,
                                
 
                            };
@@ -92,7 +92,7 @@ namespace EduTrack.Controllers
                     Name = parent.Name,
                     Email = parent.Email,
                     Phone = parent.Phone,
-                    StudentId=parent.StudentId
+                    //StudentId=parent.StudentId
 
                 }).FirstOrDefault(x => x.Id == Id);
 
@@ -104,24 +104,53 @@ namespace EduTrack.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        //[HttpGet("GetByUserId")]
+        //public IActionResult GetByUserId(int userId)
+        //{
+        //    try
+        //    {
+        //        var parent = _dbContext.Parents.FirstOrDefault(p => p.UserId == userId);
+
+        //        if (parent == null)
+        //            return NoContent(); // 204
+
+        //        return Ok(parent);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new { message = ex.Message });
+        //    }
+        //}
         [HttpGet("GetByUserId")]
         public IActionResult GetByUserId(int userId)
         {
             try
             {
+                // 1. جيب بيانات الأب أولاً
                 var parent = _dbContext.Parents.FirstOrDefault(p => p.UserId == userId);
 
-                if (parent == null)
-                    return NoContent(); // 204
+                if (parent == null) return NoContent();
 
-                return Ok(parent);
+                // 2. بدل الـ Include، بنروح نجيب الطلاب اللي عندهم نفس الـ ParentId
+                var students = _dbContext.Students
+                    .Where(s => s.ParentId == parent.Id)
+                    .ToList();
+
+                // 3. بنرجع "Object" جديد فيه بيانات الأب وقائمة أولاده
+                return Ok(new
+                {
+                    parent.Id,
+                    parent.Name,
+                    parent.Email,
+                    parent.Phone,
+                    Students = students // المصفوفة اللي رح يشوفها الأنجولار
+                });
             }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
         }
-
         [Authorize(Roles = "Admin")]
         [HttpPost("Add")]
 
@@ -161,7 +190,7 @@ namespace EduTrack.Controllers
                     Name = parentDto.Name,
                     Email = parentDto.Email,
                     Phone = parentDto.Phone,
-                    StudentId=parentDto.StudentId,
+                    //StudentId=parentDto.StudentId,
                     User = user
                 };
                 _dbContext.Parents.Add(parent);

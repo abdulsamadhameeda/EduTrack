@@ -3,10 +3,11 @@ import { ParentService } from '../../services/parent.service';
 import { ParentInterface } from '../../interfaces/parent-interface';
 import { AuthService } from '../../services/auth.service';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { StudentSelectorComponent } from '../../shared-component/student-selector-component/student-selector-component';
 
 @Component({
   selector: 'app-parent',
-  imports: [RouterLink ,RouterLinkActive],
+  imports: [RouterLink ,RouterLinkActive , StudentSelectorComponent],
   templateUrl: './parent.html',
   styleUrl: './parent.css'
 })
@@ -15,7 +16,7 @@ export class Parent {
 
   constructor(private _ParentService: ParentService) { }
 
-  parent: ParentInterface | null = null;  // مش مصفوفة
+  parent: ParentInterface | null = null;  
 
 
 

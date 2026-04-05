@@ -133,7 +133,7 @@ namespace EduTrack.Controllers
                 var parent = _dbContext.Parents.FirstOrDefault(p => p.Id == student.ParentId);
                 if (parent != null)
                 {
-                    parent.StudentId = student.Id;
+                    //parent.StudentId = student.Id;
                     _dbContext.SaveChanges();
                 }
 
@@ -169,7 +169,7 @@ namespace EduTrack.Controllers
                 var parent = _dbContext.Parents.FirstOrDefault(p => p.Id == student.ParentId);
                 if (parent != null)
                 {
-                    parent.StudentId = student.Id;
+                    //parent.StudentId = student.Id;
                     _dbContext.SaveChanges();
                 }
                 return Ok();
@@ -199,7 +199,7 @@ namespace EduTrack.Controllers
                 var parent = _dbContext.Parents.FirstOrDefault(p => p.Id == student.ParentId);
                 if (parent != null)
                 {
-                    parent.StudentId = 0;
+                    //parent.StudentId = 0;
                     _dbContext.SaveChanges();
                 }
                 return Ok();

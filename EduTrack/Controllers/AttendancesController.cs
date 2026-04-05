@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace EduTrack.Controllers
 {
-    [Authorize(Roles = "Teacher,Parent")]
+    //[Authorize(Roles = "Teacher,Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class AttendancesController : ControllerBase
@@ -63,7 +63,7 @@ namespace EduTrack.Controllers
                     .ToList();
 
                 if (!attendances.Any())
-                    return NotFound($"No attendance records found for StudentId {studentId}");
+                    return Ok(new List<AttendanceDto>());
 
                 return Ok(attendances);
             }
