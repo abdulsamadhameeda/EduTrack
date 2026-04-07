@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduTrack.Controllers
 {
-        //[Authorize(Roles = "Admin,Teacher,Parent")]
+    [Authorize(Roles = "Admin,Teacher,Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class ParentsController : ControllerBase

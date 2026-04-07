@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace EduTrack.Controllers
 {
-    //[Authorize(Roles = "Teacher,Parent")]
+    [Authorize(Roles = "Teacher,Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class AttendancesController : ControllerBase
@@ -58,7 +58,8 @@ namespace EduTrack.Controllers
                     {
                         Id = x.Id,
                         DayAbsent = x.DayAbsent,
-                        StudentId = x.StudentId
+                        StudentId = x.StudentId,
+                        
                     })
                     .ToList();
 

@@ -22,7 +22,11 @@ th {
     text-align: center;
 
 }
+.card{
+    box-shadow: 0 4px 25px rgb(185, 210, 245);
 
+  
+}
 @media screen and (max-width: 800px) {
     .btn {
         width: 100%;

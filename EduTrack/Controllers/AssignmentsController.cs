@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduTrack.Controllers
 {
-    //[Authorize(Roles = "Teacher,Parent")]
+    [Authorize(Roles = "Teacher,Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class AssignmentsController : ControllerBase
@@ -21,49 +21,42 @@ namespace EduTrack.Controllers
 
        
 
-        [HttpGet("GetAll")]
-        public IActionResult GetAll()
+     
+
+        [HttpGet("GetByTeacherId")]
+        public IActionResult GetById([FromQuery] long TeacherId)
         {
-            var assignments = _dbContext.Assignments
-                .Select(a => new 
-                {
-                    a.Id,
-                    SubjectId = a.SubjectId,
-                    GradeLevelId = a.GradeLevelId,
-                    ClassId = a.ClassId,
-                    Description = a.Description,
-                    DueDateSub = a.DueDateSub,
-                    SubjectName = a.LookupSubject != null ? a.LookupSubject.Name : null,
-                    GradeLevel = a.LookupGrade != null ? a.LookupGrade.Name : null,
-                    Class = a.LookupClass != null ? a.LookupClass.Name : null
-                })
+            try
+            {
+
+                var teacher = _dbContext.Teachers.FirstOrDefault(t => t.UserId == TeacherId);
+
+                var assignment = _dbContext.Assignments.
+                    Where(x=>x.TeacherId == teacher.Id)
+
+                 .Select(a => new
+                 {
+                     a.Id,
+                     SubjectId = a.SubjectId,
+                     GradeLevelId = a.GradeLevelId,
+                     ClassId = a.ClassId,
+                     Description = a.Description,
+                     DueDateSub = a.DueDateSub,
+                     SubjectName = a.LookupSubject != null ? a.LookupSubject.Name : null,
+                     GradeLevel = a.LookupGrade != null ? a.LookupGrade.Name : null,
+                     Class = a.LookupClass != null ? a.LookupClass.Name : null,
+                     TeacherId = a.TeacherId,   
+                 })
                 .ToList();
 
-            return Ok(assignments);
+
+                return Ok(assignment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-
-        //[HttpGet("GetById")]
-        //public IActionResult GetById([FromQuery] long Id)
-        //{
-        //    try
-        //    {
-        //        var assignment = _dbContext.Assignments.Select(assignment => new AssignmentDto
-        //        {
-        //            Id = assignment.Id,
-        //            Description = assignment.Description,   
-        //            DueDateSub = assignment.DueDateSub,
-                   
-
-        //        }).FirstOrDefault(x => x.Id == Id);
-
-
-        //        return Ok(assignment);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
         [HttpGet("GetByStudentId")]
         public IActionResult GetByStudentId([FromQuery] long studentId)
         {
@@ -104,14 +97,19 @@ namespace EduTrack.Controllers
         {
             try
             {
+
+                var teacher = _dbContext.Teachers
+                   .FirstOrDefault(t => t.UserId == assignmentDto.TeacherId);
+
                 var assignment = new Assignment()
                 {
                     Id = 0,
                     Description = assignmentDto.Description,
                     DueDateSub = assignmentDto.DueDateSub,
-                    SubjectId = assignmentDto.SubjectId,       
-                    GradeLevelId = assignmentDto.GradeLevelId, 
-                    ClassId = assignmentDto.ClassId            
+                    SubjectId = assignmentDto.SubjectId,
+                    GradeLevelId = assignmentDto.GradeLevelId,
+                    ClassId = assignmentDto.ClassId,
+                    TeacherId = teacher.Id
                 };
 
                 _dbContext.Assignments.Add(assignment);
@@ -125,7 +123,7 @@ namespace EduTrack.Controllers
             }
 
         }
-
+       
         [HttpPut("Update")]
         public IActionResult Update(SaveAssignmentDto assignmentDto)
         {

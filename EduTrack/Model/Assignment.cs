@@ -25,5 +25,10 @@ namespace EduTrack.Model
         public long? ClassId { get; set; }
         public Lookup? LookupClass { get; set; }
 
+
+        [ForeignKey("Teacher")]
+        public long? TeacherId { get; set; }
+        public Teacher? Teacher { get; set; }
+
     }
 }

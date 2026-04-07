@@ -12,5 +12,9 @@ namespace EduTrack.DTOs.Assignment
         public long? SubjectId { get; set; }
         public long? GradeLevelId { get; set; }
         public long? ClassId { get; set; }
+        public long? TeacherId { get; set; }
+
+        
+
     }
 }

@@ -1,3 +1,14 @@
+<!-- <div class="row mb-3 justify-content-center">
+  <div class="col-md-4 text-center">
+    <div class="btn-group" role="group">
+      <input type="radio" class="btn-check" name="mode" id="addMode" value="add" [(ngModel)]="pageMode" (change)="resetTable()">
+      <label class="btn btn-outline-primary" for="addMode">Add New Grades</label>
+
+      <input type="radio" class="btn-check" name="mode" id="editMode" value="edit" [(ngModel)]="pageMode" (change)="resetTable()" >
+      <label class="btn btn-outline-success" for="editMode">Edit / Delete Grades</label>
+    </div>
+  </div>
+</div> -->
 <div class="container-fluid">
 
     <div class="card">
@@ -60,8 +71,22 @@
             <h5>
                 student
             </h5>
-            <div class="col-lg-4  " [formGroup]="subform">
-                <select class="form-select" aria-label="Default select example" id="Class" formControlName="subjectId" 
+            <div class="col-lg-4" [formGroup]="subform" style="display: flex; ">
+                <select class="form-select sub-gra-sel" aria-label="Default select example" id="Class" formControlName="monthGradeId" 
+                [class.invalid-input]="
+                 subform.get('monthGradeId')?.invalid && subform.get('monthGradeId')?.touched
+                ">
+                    @for (item of monthGrade; track item) {
+
+                    <option [ngValue]="item.Id">{{ item.Name }}</option>
+
+                    }
+
+
+
+
+                </select>
+                <select class="form-select sub-gra-sel" aria-label="Default select example" id="Class" formControlName="subjectId" 
                 [class.invalid-input]="
                  subform.get('subjectId')?.invalid && subform.get('subjectId')?.touched
                 ">
@@ -75,6 +100,8 @@
 
 
                 </select>
+                 
+            
             </div>
         </div>
 

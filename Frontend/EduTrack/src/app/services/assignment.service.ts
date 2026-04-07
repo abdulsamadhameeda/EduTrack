@@ -13,11 +13,12 @@ export class AssignmentService {
   constructor(private _http: HttpClient) { }
 
 
-  getAll() {
-
+  getAll(teacherId: number) {
+    let params = new HttpParams();
+    params = params.set("teacherId", teacherId.toString());
     let token = localStorage.getItem('token');
     let headers = { 'Authorization': `Bearer ${token}` };
-    return this._http.get(this.apiUrl + '/GetAll', { headers });
+    return this._http.get(this.apiUrl + '/GetByTeacherId', { params, headers });
   }
 
 
@@ -44,8 +45,8 @@ export class AssignmentService {
     return this._http.delete(this.apiUrl + "/Delete", { params, headers });
   }
 
-  Update(assignment:Assignment){
-   let token = localStorage.getItem('token');
+  Update(assignment: Assignment) {
+    let token = localStorage.getItem('token');
     let headers = { 'Authorization': `Bearer ${token}` };
 
     return this._http.put(this.apiUrl + "/Update", assignment, { headers });

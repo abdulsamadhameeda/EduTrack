@@ -11,6 +11,7 @@ import { AssignmentService } from '../../services/assignment.service';
 import { ListInterface } from '../../interfaces/list-interface';
 import { LookupService } from '../../services/lookup.service';
 import { LookupsMajorCodes } from '../../enums/lookups-major-codes';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -32,7 +33,8 @@ export class TeacherAssignment {
   constructor(
     private datePipe: DatePipe,
     private _assignmentService: AssignmentService,
-    private _lookupService: LookupService
+    private _lookupService: LookupService,
+    private _authService: AuthService
   ) { }
 
   assignment: Assignment[] = []
@@ -72,8 +74,9 @@ export class TeacherAssignment {
 
   loadassignment() {
     this.assignment = [];
+    let teacherId = this._authService.getUserId();
 
-    this._assignmentService.getAll().subscribe({
+    this._assignmentService.getAll(Number(teacherId)).subscribe({
       next: (res: any) => {
         if (res.length > 0) {
           res.forEach((x: any) => {
@@ -130,7 +133,8 @@ export class TeacherAssignment {
         : new Date(),
       subjectId: this.Assignmentform.value.subjectId,
       classId: this.Assignmentform.value.classId,
-      gradeLevelId: this.Assignmentform.value.gradeLevelId
+      gradeLevelId: this.Assignmentform.value.gradeLevelId,
+      teacherId: this._authService.getUserId()
     };
 
     if (!this.Assignmentform.value.id) {

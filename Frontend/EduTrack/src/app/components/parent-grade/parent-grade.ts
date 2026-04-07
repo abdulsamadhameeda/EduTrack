@@ -19,14 +19,15 @@ export class ParentGrade {
 
   grades: GradeInterface[] = []
   studentInfo?: StudentInterface;
-  // parent: ParentInterface | null = null;
 
 
 
   StudentGradesColumns: string[] = [
     '#',
     'Subject',
+    'Month Grade',
     'Score'
+    
   ]
   StudentInfoColumns: string[] = [
     'Name',
@@ -86,22 +87,6 @@ export class ParentGrade {
     });
   }
 
-//  getParentInfo(userId: number) {
-//     this._ParentService.GetParentByUserId(userId).subscribe({
-//       next: (res: any) => {
-//         this.parent = res;
-//         console.log('Parent Info:', this.parent);
-//         if (this.parent?.studentId != null) {
-//         this.loadGrades(this.parent.studentId);
-//         this.loadStudent(this.parent.studentId);
-//       } else {
-//         alert('No student linked to this parent')
-//       }
-//       },
-//       error: err => {
-//         console.log(err.error.message ?? err.error ?? "Unexpected Error");
-//       }
-//     });
-//   }
+
 
 }

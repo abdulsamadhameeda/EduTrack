@@ -10,7 +10,7 @@ using System;
 
 namespace EduTrack.Controllers
 {
-    [Authorize(Roles = "Teacher,Parent")]
+    //[Authorize(Roles = "Teacher,Parent")]
     [Route("api/[controller]")]
     [ApiController]
     public class GradesController : ControllerBase
@@ -29,7 +29,7 @@ namespace EduTrack.Controllers
                 var data = from grade in _dbContext.Grades
                            from student in _dbContext.Students.Where(x => x.Id == grade.StudentId) //Join
                            from lookup in _dbContext.Lookups.Where(x => x.Id == grade.SubjectId)// Join
-                           from lookup2 in _dbContext.Lookups.Where(x => x.Id == grade.GradeMonth).DefaultIfEmpty()// Left Join
+                           from lookup2 in _dbContext.Lookups.Where(x => x.Id == grade.GradeMonthId).DefaultIfEmpty()// Left Join
                            where (filterDto.Id == null || grade.Id == filterDto.Id) &&
                                  (filterDto.SubjectName == null || grade.SubjectName.ToUpper().Contains(filterDto.SubjectName.ToUpper()))
                            orderby grade.Id
@@ -40,7 +40,7 @@ namespace EduTrack.Controllers
                                StudentId = grade.StudentId, // Or student.Id
                                SubjectId = grade.SubjectId,
                                StudentName = student.Name,
-                               GradeMonth = grade.GradeMonth,
+                               GradeMonthId = grade.GradeMonthId,
 
 
                            };
@@ -91,12 +91,14 @@ namespace EduTrack.Controllers
                     .Select(x => new GradeDto
                     {
                         Id = x.Id,
-                        SubjectName = x.Lookup != null ? x.Lookup.Name : null,
+                        SubjectName = x.LookupSubject != null ? x.LookupSubject.Name : null,
                         StudentName = x.Student != null ? x.Student.Name : null,
+                        GradeMonthName = x.LookupMonth != null ? x.LookupMonth.Name : null,
+
                         score = x.score,
                         StudentId = x.StudentId,
                         SubjectId = x.SubjectId,
-                        GradeMonth = x.GradeMonth,
+                        GradeMonthId = x.GradeMonthId,
                     })
                     .ToList();
 
@@ -135,7 +137,7 @@ namespace EduTrack.Controllers
                             score = item.score,
                             SubjectId = item.SubjectId,
                             StudentId = item.StudentId,
-                            GradeMonth = item.GradeMonth,
+                            GradeMonthId = item.GradeMonthId,
 
                         };
                         _dbContext.Grades.Add(grade);
@@ -167,7 +169,7 @@ namespace EduTrack.Controllers
                 grade.SubjectName = gradeDto.SubjectName;
                 grade.StudentId = gradeDto.StudentId;
                 grade.SubjectId = gradeDto.SubjectId;
-                grade.GradeMonth = gradeDto.GradeMonth;
+                grade.GradeMonthId = gradeDto.GradeMonthId;
 
 
 

@@ -29,6 +29,9 @@ export class TeacherGrade {
 
   subject: ListInterface[] = []
 
+  monthGrade: ListInterface[] = []
+
+
   StudentTableColumns: string[] = [
     '#',
     'Name',
@@ -48,6 +51,7 @@ export class TeacherGrade {
   subform: FormGroup = new FormGroup({
 
     subjectId: new FormControl(null, [Validators.required]),
+    monthGradeId: new FormControl(null, [Validators.required]),
 
   })
 
@@ -57,6 +61,7 @@ export class TeacherGrade {
     this.loadGradeLevel()
     this.loadClass()
     this.loadSubject()
+    this.loadGrade()
 
   }
 
@@ -82,7 +87,7 @@ export class TeacherGrade {
               gradeLevelId: x.gradeLevelId,
               classId: x.classId,
               teacherId: x.teacherId,
-              parentId :x.ParentId
+              parentId: x.ParentId
 
 
             };
@@ -171,23 +176,51 @@ export class TeacherGrade {
 
   }
 
+  loadGrade() {
+    this.monthGrade = [{ Id: null, Name: "Select Month Grade" }]
+    this._lookupService.getByMajorCode(LookupsMajorCodes.monthGrades).subscribe({
+      next: (res: any) => { // succesful request 
+        if (res?.length > 0) {
+          this.monthGrade = this.monthGrade.concat(res.map((x: any) => ({ Id: x.id, Name: x.name } as ListInterface))
+          )
+
+
+        }
+      },
+      error: err => {// failed request | 400 , 500
+        console.log(err.error.message ?? err.error ?? "Unexpected Error");
+      }
+
+
+    })
+
+  }
 
   addGrades() {
-    let subjectId = this.subform?.value?.subjectId; // 👈 قيمة المادة من الـ DropDown
+    let subjectId = this.subform?.value?.subjectId;
     if (!subjectId) {
       alert('Please select a subject');
       return;
     }
+
+    let GradeMonthId = this.subform?.value?.monthGradeId; 
+    if (!GradeMonthId) {
+      alert('Please select a monthGrade');
+      return;
+    }
+
+
     let grades: GradeInterface[] = this.students
       .filter(stu => stu.grade != null)
       .map(stu => ({
         id: 0,
         studentId: stu.id,
         subjectId: subjectId,
+        gradeMonthId: GradeMonthId,
         score: Number(stu.grade)
       }));
 
-    let payload =  grades ;
+    let payload = grades;
     if (!grades.length) {
       alert('No grades to submit');
       return;
@@ -206,6 +239,6 @@ export class TeacherGrade {
 
 
 
-
+ 
 
 }
